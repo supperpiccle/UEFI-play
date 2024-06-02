@@ -1,0 +1,36 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+                {
+                "name": "(gdb) Attach",
+                "type": "gdb",
+                "request": "attach",
+                "executable": "./hda-contents/shimx64.efi",
+                "target": "localhost:1234",
+                "remote": true,
+                "cwd": "${workspaceRoot}", 
+                "gdbpath": "/usr/local/bin/gdb",
+                "autorun": [
+                    "source interact_qemu.py",
+                    "interrupt"
+                ]
+            },
+            {
+                "name": "LLDB kernel EFI",
+                "type": "lldb",
+                "request": "custom",
+                "targetCreateCommands": [
+                    "target create --no-dependents --arch x86_64 kernel-x86_64.elf"
+                ],
+                "processCreateCommands": [
+                    "gdb-remote localhost:1234",
+                    "target modules load --file kernel-x86_64.elf --slide 0x0"
+                ]
+            }
+
+
+    ]
+}
